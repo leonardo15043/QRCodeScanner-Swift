@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +12,63 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="qr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JRq-IM-ptD">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.94215511658031093" green="0.94215511658031093" blue="0.94215511658031093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="JRq-IM-ptD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="RiY-Yv-e6t"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JRq-IM-ptD" secondAttribute="bottom" id="ZdQ-ye-kgH"/>
+                            <constraint firstItem="JRq-IM-ptD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="be7-dF-4u6"/>
+                            <constraint firstItem="JRq-IM-ptD" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="fMW-fr-2hX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="videoPreview" destination="JRq-IM-ptD" id="eLk-P5-rIt"/>
+                        <segue destination="aJc-2A-42e" kind="show" identifier="openLink" id="HCb-dh-x3j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="90" y="134"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="fDq-X9-TmA">
+            <objects>
+                <viewController id="aJc-2A-42e" customClass="WebViewController" customModule="qr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="nKo-bR-AEf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CUv-ux-Lf1">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="CUv-ux-Lf1" firstAttribute="top" secondItem="uTr-s5-d3O" secondAttribute="top" id="O24-pO-V8i"/>
+                            <constraint firstItem="uTr-s5-d3O" firstAttribute="trailing" secondItem="CUv-ux-Lf1" secondAttribute="trailing" id="R7x-l4-bj8"/>
+                            <constraint firstItem="CUv-ux-Lf1" firstAttribute="leading" secondItem="uTr-s5-d3O" secondAttribute="leading" id="XML-hX-3i5"/>
+                            <constraint firstItem="uTr-s5-d3O" firstAttribute="bottom" secondItem="CUv-ux-Lf1" secondAttribute="bottom" id="vVA-y2-0zI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="uTr-s5-d3O"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="CUv-ux-Lf1" id="HMM-YF-oDT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GxT-L9-vAo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="847" y="134"/>
         </scene>
     </scenes>
 </document>

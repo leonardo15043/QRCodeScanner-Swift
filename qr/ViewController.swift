@@ -7,12 +7,89 @@
 //
 
 import UIKit
+import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+    
+    @IBOutlet var videoPreview: UIView!
+    
+    var stringURL = String();
+    
+    enum error: Error{
+        case noCameraAviable
+        case videoInputInitFail
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        do {
+            try scanQRCode()
+        } catch  {
+             print("Error al escanear el codigo QR")
+        }
+        
+        
+    }
+    
+    /*func metadataOutput(_ captureOutput: AVCaptureMetadataOutput!,
+                        didOutputMetadataObjects metadataOnjects:[Any]!, from connection: AVCaptureConnection!) {*/
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+
+        
+        if metadataObjects.count > 0 {
+            let  machineReadableCode = metadataObjects[0] as!AVMetadataMachineReadableCodeObject
+            
+            if machineReadableCode.type ==
+                AVMetadataObject.ObjectType.qr{
+                stringURL = machineReadableCode.stringValue!
+                performSegue(withIdentifier: "openLink", sender: self)
+            }
+            
+        }
+        
+    }
+    
+    func scanQRCode() throws {
+        let avCaptureSession = AVCaptureSession()
+        
+        guard let avCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video) else{
+            print("no camera")
+            throw error.noCameraAviable
+        }
+        
+        guard let avCaptureInput = try?
+           AVCaptureDeviceInput(device: avCaptureDevice) else {
+            print("Failed to init camera.")
+            throw error.videoInputInitFail
+        }
+        
+        let avCaptueMetadataOutput = AVCaptureMetadataOutput()
+        avCaptueMetadataOutput.setMetadataObjectsDelegate(self, queue:DispatchQueue.main)
+        
+        avCaptureSession.addInput(avCaptureInput)
+        avCaptureSession.addOutput(avCaptueMetadataOutput)
+        
+        avCaptueMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
+       
+        let avCaptureVideoPreviewLayer =
+            AVCaptureVideoPreviewLayer(session: avCaptureSession)
+        avCaptureVideoPreviewLayer.videoGravity =
+            AVLayerVideoGravity.resizeAspectFill
+        avCaptureVideoPreviewLayer.frame = videoPreview.bounds
+        self.videoPreview.layer.addSublayer(avCaptureVideoPreviewLayer)
+        
+        avCaptureSession.startRunning()
+      
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     
+        if segue.identifier == "openLink" {
+            let destination = segue.destination as! WebViewController
+            destination.url = URL(string: stringURL)
+        }
     }
 
 
